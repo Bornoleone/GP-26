@@ -239,6 +239,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameManager
       objectReference: {fileID: 0}
+    - target: {fileID: 1567544279954943049, guid: c996b53e9f849234393d1e90f68d1679,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1826386070391163904, guid: c996b53e9f849234393d1e90f68d1679,
         type: 3}
       propertyPath: m_textInfo.lineCount
@@ -952,7 +957,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::LectureScript
   useKey: 101
   player: {fileID: 1469306398}
-  cubeToMove: {fileID: 0}
+  cubeToMove: {fileID: 409138078}
 --- !u!1 &1770994419
 GameObject:
   m_ObjectHideFlags: 0
