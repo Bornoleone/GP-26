@@ -3,7 +3,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
 using static UnityEngine.GraphicsBuffer;
 
-public class LectureScript : MonoBehaviour
+public class PlatformSpawning : MonoBehaviour
 {
     public KeyCode useKey = KeyCode.E;
     public Transform player;
