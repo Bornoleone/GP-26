@@ -2,27 +2,33 @@ using UnityEngine;
 
 public class SpawnBall : MonoBehaviour
 {
-    [SerializeField] private KeyCode useKey = KeyCode.T;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+    [SerializeField] private KeyCode useKeySmallBall = KeyCode.T;
+    [SerializeField] private KeyCode useKeyBigBall = KeyCode.Y;
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(useKey))
+        if (Input.GetKeyDown(useKeySmallBall))
         {
-            SpawningBall();
+            SpawningSmallBall();
+        }
+        if (Input.GetKeyDown(useKeyBigBall))
+        {
+            SpawningBigBall();
         }
     }
-    public void SpawningBall()
+    public void SpawningSmallBall()
     {
-        Ball ball = new Ball(Vector3.one);
-        Debug.Log("new ball object created" + ball);
-        ball.CreateBall(Vector3.one);
+        Ball ballSmall = new Ball(Vector3.one);
+        Debug.Log("new ballSmall object created" + ballSmall);
+        ballSmall.CreateBall(Vector3.one);
     }
- 
+    public void SpawningBigBall()
+    {
+        Ball ballBig = new Ball(new Vector3(2, 2, 2));
+        Debug.Log("new ballSmall object created" + ballBig);
+        ballBig.CreateBall(Vector3.one);
+    }
+
 
 }
