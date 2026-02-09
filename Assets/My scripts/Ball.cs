@@ -11,6 +11,15 @@ public class Ball
     public GameObject ball;
     public Rigidbody rb;
 
+    #region ExampleProperties
+    //properties
+    /*public Vector3 BallPosition
+    {//example for me
+        get {return ballPosition; }
+        set { BallPosition = value; }
+    }*/
+    #endregion
+
     public Ball(Vector3 scale)
     {
         ballScale = scale;
