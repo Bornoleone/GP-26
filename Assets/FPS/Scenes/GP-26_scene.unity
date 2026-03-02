@@ -843,6 +843,12 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 765138043}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &817887057 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7691137678631483205, guid: 673aec0567ec5ae478a0a902a5ea088b,
+    type: 3}
+  m_PrefabInstance: {fileID: 1294777531}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &851078802
 GameObject:
   m_ObjectHideFlags: 0
@@ -968,7 +974,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a7e2c232dabfc94793f92321592d8e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ChangePlayerPosition
-  playerTransform: {fileID: 0}
+  playerTransform: {fileID: 817887057}
   teleportLocation: {x: 10, y: 0, z: 10}
 --- !u!1 &1232431228
 GameObject:

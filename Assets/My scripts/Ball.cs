@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class Ball
 {
@@ -6,7 +7,8 @@ public class Ball
     public Vector3 ballRotation;
     public Vector3 ballScale;
     public string ballName;
-    public Color ballColor;
+    public Color ballColor = Color.salmon;
+    public Renderer ballRenderer;
 
     public GameObject ball;
     public Rigidbody rb;
@@ -19,7 +21,7 @@ public class Ball
         set { BallPosition = value; }
     }*/
     #endregion
-
+    
     public Ball(Vector3 scale)
     {
         ballScale = scale;
@@ -29,6 +31,7 @@ public class Ball
     {
         ball = GameObject.CreatePrimitive(PrimitiveType.Sphere);
         rb = ball.AddComponent<Rigidbody>();
+        ball.GetComponent<Renderer>().material.color = ballColor;
         ball.transform.position = position;
         ball.transform.localScale = ballScale;
         Debug.Log("Spawned Game object: " + ball + " In position: " + position + " scale: " + ballScale );
