@@ -4,8 +4,6 @@ using UnityEngine.UIElements;
 
 internal class Ball : BuildableObject
 {
-    private GameObject ball;
-    private Rigidbody rb;
 
     #region ExampleProperties
     //properties
@@ -16,25 +14,22 @@ internal class Ball : BuildableObject
     }*/
     #endregion
     
-    public Ball(Vector3 scale, Color color) : base()
+    public Ball(Vector3 scale, Color color) : base()//object constructor
     {
-        ball = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-        objectScale = scale;
-        buildableGameObject = ball;
-        objectRenderer = ball.GetComponent<Renderer>();
-        objectPosition = ball.transform.position;
-        ball.GetComponent<Renderer>().material.color = color;
+        buildableGameObject = GameObject.CreatePrimitive(PrimitiveType.Sphere);//assigns primitive game object type sphere to be buildableGameObject
+        objectScale = scale; // Set the scale from constructor parameter
+        buildableGameObject.GetComponent<Renderer>().material.color = color;//assigns coming parameter's Color to be game object's color
     }
     
     
     public override GameObject SpawnGameObject(Vector3 position)
     {
-        rb = ball.AddComponent<Rigidbody>();
-        
-        ball.transform.position = position;
-        ball.transform.localScale = objectScale;
-        Debug.Log("Spawned Game object: " + ball + " In position: " + position + " scale: " + objectScale );
-        return ball;
+        rb = buildableGameObject.AddComponent<Rigidbody>();// Add physics component to the Sphere
+        buildableGameObject.transform.position = position;// Set spawn position
+        objectPosition = position;// saving position to objectPosition variable
+        buildableGameObject.transform.localScale = objectScale;// Apply scale from constructor
+        Debug.Log("Spawned Game object: " + buildableGameObject + " In position: " + position + " scale: " + objectScale );
+        return buildableGameObject; //returns the gameobject
     }
     
 }
