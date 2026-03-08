@@ -1,8 +1,8 @@
 using UnityEngine;
 
-public class SpawnBall : MonoBehaviour
+public class SpawnGameObject : MonoBehaviour
 {
-    [SerializeField] private KeyCode useKeySmallBall = KeyCode.T;
+    /*[SerializeField] private KeyCode useKeySmallBall = KeyCode.T;
     [SerializeField] private KeyCode useKeyBigBall = KeyCode.Y;
 
     // Update is called once per frame
@@ -21,14 +21,14 @@ public class SpawnBall : MonoBehaviour
     {
         Ball ballSmall = new Ball(Vector3.one);
         Debug.Log("new ballSmall object created" + ballSmall);
-        ballSmall.CreateBall(Vector3.one);
+        ballSmall.SpawnGameObject(Vector3.one);
     }
     public void SpawningBigBall()
     {
         Ball ballBig = new Ball(new Vector3(2, 2, 2));
         Debug.Log("new ballSmall object created" + ballBig);
-        ballBig.CreateBall(Vector3.one);
-    }
+        ballBig.SpawnGameObject(Vector3.one);
+    }*/
 
 
 }

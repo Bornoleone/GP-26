@@ -1,17 +1,11 @@
 using UnityEngine;
+using UnityEngine.ProBuilder.Shapes;
 using UnityEngine.UIElements;
 
-public class Ball
+internal class Ball : BuildableObject
 {
-    public Vector3 ballPosition;
-    public Vector3 ballRotation;
-    public Vector3 ballScale;
-    public string ballName;
-    public Color ballColor = Color.salmon;
-    public Renderer ballRenderer;
-
-    public GameObject ball;
-    public Rigidbody rb;
+    private GameObject ball;
+    private Rigidbody rb;
 
     #region ExampleProperties
     //properties
@@ -22,19 +16,25 @@ public class Ball
     }*/
     #endregion
     
-    public Ball(Vector3 scale)
-    {
-        ballScale = scale;
-    }
-
-    public GameObject CreateBall(Vector3 position)
+    public Ball(Vector3 scale, Color color) : base()
     {
         ball = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+        objectScale = scale;
+        buildableGameObject = ball;
+        objectRenderer = ball.GetComponent<Renderer>();
+        objectPosition = ball.transform.position;
+        ball.GetComponent<Renderer>().material.color = color;
+    }
+    
+    
+    public override GameObject SpawnGameObject(Vector3 position)
+    {
         rb = ball.AddComponent<Rigidbody>();
-        ball.GetComponent<Renderer>().material.color = ballColor;
+        
         ball.transform.position = position;
-        ball.transform.localScale = ballScale;
-        Debug.Log("Spawned Game object: " + ball + " In position: " + position + " scale: " + ballScale );
+        ball.transform.localScale = objectScale;
+        Debug.Log("Spawned Game object: " + ball + " In position: " + position + " scale: " + objectScale );
         return ball;
     }
+    
 }
