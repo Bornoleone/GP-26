@@ -21,7 +21,5 @@ abstract class BuildableObject
     public abstract GameObject SpawnGameObject(Vector3 position);
 
 
-    //protected virtual void Start() { } 
-    //protected virtual void Update() { }
 
 }

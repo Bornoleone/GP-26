@@ -13,7 +13,7 @@ internal class Cube : BuildableObject
     }*/
     #endregion
 
-    public Cube(Vector3 scale, Color color) : base()//object constructor
+    public Cube(Vector3 scale, Color color) : base()//object constructor´, Base() method constructs parent class before this child class
     {
         buildableGameObject = GameObject.CreatePrimitive(PrimitiveType.Cube);//assigns primitive game object type cube to be buildableGameObject
         objectScale = scale;// Set the scale from constructor parameter
@@ -29,7 +29,7 @@ internal class Cube : BuildableObject
         objectPosition = position;// saving position to objectPosition variable
         buildableGameObject.transform.localScale = objectScale;// Apply scale from constructor
         Debug.Log("Spawned Game object: " + buildableGameObject + " In position: " + position + " scale: " + objectScale);
-        return buildableGameObject;//returns the gameobject
+        return buildableGameObject;//returns the game object
     }
 
 }
