@@ -1,3 +1,4 @@
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -12,6 +13,7 @@ abstract class BuildableObject
     protected Rigidbody rb;
     protected Material objectMaterial;
     protected GameObject buildableGameObject;
+    //
 
     protected BuildableObject()
     {
