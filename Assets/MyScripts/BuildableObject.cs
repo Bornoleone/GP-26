@@ -7,7 +7,7 @@ abstract class BuildableObject
     protected Vector3 objectPosition;
     protected Vector3 objectRotation;
     protected Vector3 objectScale;
-    protected string objectName;
+    protected string buildableObjectName;
     protected Color objectColor;
     protected Renderer objectRenderer;
     protected Rigidbody rb;

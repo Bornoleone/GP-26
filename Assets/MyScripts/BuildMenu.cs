@@ -50,6 +50,11 @@ public class BuildMenu : MonoBehaviour
             Cube cube = new Cube(selectedGameObjectScale, selectedGameObjectColor); // constructs cube object with scale and color parameters
             cube.SpawnGameObject(currentBuildLocation); // uses cube class SpawnGameObject method to spawn Game Object to currentBuildLocation Vector3 
         }
+        if (selectedGameObjectShape == "Ramp")
+        {
+            Ramp ramp = new Ramp(new Vector3(200,200,200));
+            ramp.SpawnGameObject(currentBuildLocation);
+        }
     }
   
     public void HandleInput()
@@ -93,6 +98,7 @@ public class BuildMenu : MonoBehaviour
         {
             case 0: selectedGameObjectShape = "ball"; break;
             case 1: selectedGameObjectShape = "cube"; break;
+            case 2: selectedGameObjectShape = "Ramp"; break;
         }
     }
     public void OnDropDownScaleChanged(int index)//selecting Buildable game object scale

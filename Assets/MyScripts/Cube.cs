@@ -4,15 +4,6 @@ using UnityEngine.UIElements;
 internal class Cube : BuildableObject
 {
 
-    #region ExampleProperties
-    //properties
-    /*public Vector3 BallPosition
-    {//example for me
-        get {return ballPosition; }
-        set { BallPosition = value; }
-    }*/
-    #endregion
-
     public Cube(Vector3 scale, Color color) : base()//object constructor´, Base() method constructs parent class before this child class
     {
         buildableGameObject = GameObject.CreatePrimitive(PrimitiveType.Cube);//assigns primitive game object type cube to be buildableGameObject
