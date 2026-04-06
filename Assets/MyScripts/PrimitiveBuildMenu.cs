@@ -2,11 +2,11 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class BuildMenu : MonoBehaviour
+public class PrimitiveBuildMenu : MonoBehaviour
 {
     [SerializeField] private KeyCode openBuildMenuKey;
     [SerializeField] private KeyCode closeBuildMenuKey;
-    [SerializeField] private float raycastMaxDistance;
+    
     private GameObject player;
     public UnityEvent OnBuildMenuOpen;
     public UnityEvent OnBuildMenuClose;
@@ -33,20 +33,33 @@ public class BuildMenu : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.H))//monitoring input every frame for building a Game Object
         {
             BuildGameObject();// Build Game object method call
-            
         }
-        if(Input.GetKeyDown(KeyCode.Z))
+        if (Input.GetKeyDown(KeyCode.Z))
         {
             Debug.Log("Z pressed");
             Builder builder = new Builder("Ramp", 1);
             builder.SpawnGameObject(GetRayCastHitCoordinates(), "Ramp", Quaternion.Euler(-90f, 0, 0));
         }
-        GetRayCastHitCoordinates();// getting raycast coordinates every frame
         HandleInput(); // handeling input every frame
+    }
+    public Vector3 GetRayCastHitCoordinates()
+    {
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+        Debug.DrawRay(ray.origin, ray.direction * 100, Color.red);
+
+        if (Physics.Raycast(ray, out hit, 100))// if raycast hits inside raycastMaxDistance
+        {
+            Vector3 hitPoint = hit.point; //puts hit.point in Vector3 HitPoint variable
+            Debug.Log("Hit at: " + hitPoint);
+            Debug.Log("X: " + hitPoint.x + " Y: " + hitPoint.y + " Z: " + hitPoint.z);// hit coordinates
+            return hitPoint;// returns the Vector3
+        }
+        return Vector3.zero;// Vector3 have to be returned because of the returning type so Vector3.zero is Vector3(0,0,0)
     }
     public void BuildGameObject()
     {
-        currentBuildLocation = GetRayCastHitCoordinates();// gets raycast hit coordinates and assigning it to currentBuildLocation
+        currentBuildLocation = RaycastBuildLocation.instance.GetRayCastHitCoordinates();// gets raycast hit coordinates and assigning it to currentBuildLocation
         if (selectedGameObjectShape == "ball")//if selected game object is ball then iterates this code block
         {
             Ball ball = new Ball(selectedGameObjectScale, selectedGameObjectColor); // constructs ball object with scale and color parameters
@@ -75,21 +88,7 @@ public class BuildMenu : MonoBehaviour
             CloseBuildMenu(); // closes buildmenu
         }
     }
-    public Vector3 GetRayCastHitCoordinates()
-    {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
-        Debug.DrawRay(ray.origin, ray.direction * raycastMaxDistance, Color.red);
-
-        if (Physics.Raycast(ray, out hit, raycastMaxDistance))// if raycast hits inside raycastMaxDistance
-        {
-            Vector3 hitPoint = hit.point; //puts hit.point in Vector3 HitPoint variable
-            Debug.Log("Hit at: " + hitPoint);
-            Debug.Log("X: " + hitPoint.x + " Y: " + hitPoint.y + " Z: " + hitPoint.z);// hit coordinates
-            return hitPoint;// returns the Vector3
-        }
-        return Vector3.zero;// Vector3 have to be returned because of the returning type so Vector3.zero is Vector3(0,0,0)
-    }
+    
     public void OnDropDownColorChanged(int index)//selecting Buildable game object color
     {
         switch(index) //switch case for dropdown return index from Build menu UI
