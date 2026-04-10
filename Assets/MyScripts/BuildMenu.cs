@@ -38,7 +38,7 @@ public class BuildMenu : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.Z))
         {
             Debug.Log("Z pressed");
-            Builder builder = new Builder("Ramp", 1);
+            Builder builder = new Builder("Ramp", 3);
             builder.SpawnGameObject(GetRayCastHitCoordinates(), "Ramp", Quaternion.Euler(-90f, 0, 0));
         }
         GetRayCastHitCoordinates();// getting raycast coordinates every frame
