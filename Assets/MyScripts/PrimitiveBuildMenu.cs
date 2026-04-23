@@ -34,12 +34,7 @@ public class PrimitiveBuildMenu : MonoBehaviour
         {
             BuildGameObject();// Build Game object method call
         }
-        if (Input.GetKeyDown(KeyCode.Z))
-        {
-            Debug.Log("Z pressed");
-            Builder builder = new Builder("Ramp", 1);
-            builder.SpawnGameObject(GetRayCastHitCoordinates(), "Ramp", Quaternion.Euler(-90f, 0, 0));
-        }
+        
         HandleInput(); // handeling input every frame
     }
     public Vector3 GetRayCastHitCoordinates()

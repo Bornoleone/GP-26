@@ -1,4 +1,6 @@
+using System.Drawing;
 using UnityEngine;
+using Color = UnityEngine.Color;
 
 internal class Buildable
 {
@@ -9,20 +11,24 @@ internal class Buildable
     protected Color buildableColor;
     protected Renderer buildableRenderer;
     protected Rigidbody buildableRigidBody;
-    protected Material buildableMaterial;
+    protected Material[] buildableMaterials;
     protected GameObject buildable;
     protected GameObject[] buildableGameObjects;
-    protected Buildable(string name, int mode)
+    protected Buildable(string name, string mode)
     {
         SetupBuildable();
-        GetBuildableFromName(name);
+        GetPrefabFromName(name);
+        //ChangeColor(color);
+        GetMaterialFromName(mode);
     }
     protected virtual void SetupBuildable()
     {
         buildableGameObjects = Resources.LoadAll<GameObject>("BuildPrefabs");
+        buildableMaterials = Resources.LoadAll<Material>("MyMaterials");
         if (buildableGameObjects.Length == 0) { Debug.Log("Resources folder missing prefabs"); }
+        if (buildableMaterials.Length == 0) { Debug.Log("Resources folder missing materials"); }
     }
-    protected virtual GameObject GetBuildableFromName(string name)
+    protected virtual GameObject GetPrefabFromName(string name)
     {
         foreach (GameObject gameObject in buildableGameObjects)
         {
@@ -30,13 +36,46 @@ internal class Buildable
         }
         return null;
     }
-    protected virtual GameObject ChangeMaterial(GameObject gameObject, int mode)// mode 0 = opaque , mode 3 = transparent
+    private void ChangeColor(Color color)
     {
+        buildable.GetComponent<Renderer>().material.color = color;
+        buildableColor = color;
+    }
+    public virtual Material GetMaterialFromName(string name)
+    {
+        foreach (Material material in buildableMaterials)
+        {
+            Debug.Log("Material: "+ material.name + " Loaded");
+            if (material.name == name) return material;
+        }
+        return null;
+    }
+    public virtual void ChangeMaterial(GameObject gameObject, string mode)// mode 0 = opaque , mode 3 = transparent
+    {
+        
         switch (mode)
         {
-            case 3: gameObject.GetComponent<Renderer>().material.SetFloat("mode", 3); break;
-            case 1: gameObject.GetComponent<Renderer>().material.SetFloat("mode", 1); break;
+            case "transparent":
+                switch (gameObject.name)
+                {
+                    case "Ramp": gameObject.GetComponent<Renderer>().material = GetMaterialFromName("Transparent_Blue_mat"); break;
+                    case "Foundation": gameObject.GetComponent<Renderer>().material = GetMaterialFromName("Transparent_Red_mat"); break;
+                    case "WallDoorway": gameObject.GetComponent<Renderer>().material = GetMaterialFromName("Transparent_Green_mat"); break;
+                    case "Wall": gameObject.GetComponent<Renderer>().material = GetMaterialFromName("Transparent_Green_mat"); break;
+                    
+                }
+                break;
+            case "opaque":
+                switch (gameObject.name)
+                {
+                    case "Ramp": gameObject.GetComponent<Renderer>().material = GetMaterialFromName("Blue_mat"); break;
+                    case "Foundation": gameObject.GetComponent<Renderer>().material = GetMaterialFromName("Red_mat"); break;
+                    case "WallDoorway": gameObject.GetComponent<Renderer>().material = GetMaterialFromName("Green_mat"); break;
+                    case "Wall": gameObject.GetComponent<Renderer>().material = GetMaterialFromName("Green_mat"); break;
+                }
+                break;
         }
-        return gameObject;
+        Debug.Log("Material mode changed to: "+ mode);
+        
     }
 }
