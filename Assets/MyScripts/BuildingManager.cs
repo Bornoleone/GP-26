@@ -52,7 +52,7 @@ public class BuildingManager : MonoBehaviour
             }
             if (Input.GetKeyDown(KeyCode.N) && isBuilding)
             {
-                if (currentRotationZ != -90f)
+                if ( buildableName != "Roof" && currentRotationZ != -90f)
                 {
                     Debug.Log("rotation");
                     state = ConstructionState.Rotating;
@@ -61,7 +61,16 @@ public class BuildingManager : MonoBehaviour
                     currentRotationX = -90f;
                     state = ConstructionState.Active; 
                 }
-                else
+                else if (buildableName == "Roof")
+                {
+                    Debug.Log("rotation");
+                    state = ConstructionState.Rotating;
+                    tempGameObject.transform.rotation = Quaternion.identity;
+                    currentRotationZ = 0f;
+                    currentRotationX = 0f;
+                    state = ConstructionState.Active;
+                }
+                else if (buildableName == "Wall" || buildableName == "WallDoorway")
                 {
                     Debug.Log("rotation");
                     state = ConstructionState.Rotating;
@@ -70,10 +79,20 @@ public class BuildingManager : MonoBehaviour
                     currentRotationX = -90f;
                     state = ConstructionState.Active;
                 }
+                else if (buildableName != "Roof")
+                {
+                    Debug.Log("rotation");
+                    state = ConstructionState.Rotating;
+                    tempGameObject.transform.rotation = Quaternion.Euler(-90, 0, 0);
+                    currentRotationZ = 0f;
+                    currentRotationX = -90f;
+                    state = ConstructionState.Active;
+                    
+                }
             }
             if (Input.GetKeyDown(KeyCode.M) && isBuilding)
             {
-                if (currentRotationZ != 90f)
+                if (buildableName != "Roof" && currentRotationZ != 90f)
                 {
                     Debug.Log("rotation");
                     state = ConstructionState.Rotating;
@@ -82,7 +101,16 @@ public class BuildingManager : MonoBehaviour
                     currentRotationX = -90f;
                     state = ConstructionState.Active; 
                 }
-                else
+                else if (buildableName == "Roof")
+                {
+                    Debug.Log("rotation");
+                    state = ConstructionState.Rotating;
+                    tempGameObject.transform.rotation = Quaternion.identity;
+                    currentRotationZ = 0f;
+                    currentRotationX = 0f;
+                    state = ConstructionState.Active;
+                }
+                else if (buildableName == "Wall" || buildableName == "WallDoorway")
                 {
                     Debug.Log("rotation");
                     state = ConstructionState.Rotating;
@@ -90,6 +118,16 @@ public class BuildingManager : MonoBehaviour
                     currentRotationZ = 0f;
                     currentRotationX = 90f;
                     state = ConstructionState.Active;
+                }
+                else if (buildableName != "Roof")
+                {
+                    Debug.Log("rotation");
+                    state = ConstructionState.Rotating;
+                    tempGameObject.transform.rotation = Quaternion.Euler(-90, 0, 0);
+                    currentRotationZ = 0f;
+                    currentRotationX = -90f;
+                    state = ConstructionState.Active;
+                    
                 }
             }
             if (Input.GetKeyDown(KeyCode.Mouse1) && state == ConstructionState.Active && isBuilding)
@@ -146,9 +184,9 @@ public class BuildingManager : MonoBehaviour
         {
             Builder builder = new Builder(buildableName, "transparent");
             tempObject = builder;
-            tempGameObject = builder.SpawnGameObject(worldPosition, buildableName, Quaternion.Euler(0, 0, currentRotationZ), "transparent");
+            tempGameObject = builder.SpawnGameObject(worldPosition, buildableName, Quaternion.identity, "transparent");
         }
-        else
+        else if(buildableName != "Roof")
         {
             Builder builder = new Builder(buildableName, "transparent");
             tempObject = builder;
