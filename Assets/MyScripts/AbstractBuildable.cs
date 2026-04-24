@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 abstract class AbstractBuildable
@@ -10,15 +11,16 @@ abstract class AbstractBuildable
     protected Renderer buildableRenderer;
     protected Rigidbody buildableRigidBody;
     protected Material buildableMaterial;
+    protected Material[] buildableMaterials;
     protected GameObject buildable;
     protected GameObject[] buildableGameObjects;
 
     public virtual void PreviewBuildable() { }
     public virtual void BuildBuildable() { }
     public virtual void UpdateBuildable() { }
-    protected abstract void SetupBuildable();
+    public virtual Vector3 GridSnap(Vector3 position) { return Vector3.zero; }
     //protected abstract void SelectBuildable(string name);
-    protected abstract GameObject GetBuildableFromName(string name);
-    protected abstract GameObject ChangeMaterial(GameObject gameObject, int mode);
+    protected abstract GameObject GetPrefabFromName(string name);
+    protected abstract Material GetMaterialFromName(string name);
 
 }

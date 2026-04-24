@@ -16,9 +16,9 @@ internal class Builder : Buildable
     {
         
     }
-    
-    
-    public Vector3 GridSnap(Vector3 position)
+
+
+    public override Vector3 GridSnap(Vector3 position)
     {
         float snappedX = Mathf.Round(position.x / gridSize) * gridSize;
         float snappedZ = Mathf.Round(position.z / gridSize) * gridSize;

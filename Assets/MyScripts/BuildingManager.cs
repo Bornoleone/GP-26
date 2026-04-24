@@ -20,24 +20,22 @@ public class BuildingManager : MonoBehaviour
     [SerializeField] private float currentRotationZ = 0f;
     [SerializeField] private float currentRotationX = 90f;
     [SerializeField] private Transform hitTransform;
-    public object buildObject;
     private Builder tempObject;
     private GameObject tempGameObject;
-    ConstructionState state;
-    void Start()
+    private ConstructionState state;
+    private void Start()
     {
         state = ConstructionState.Inactive;
         OnEnable();
     }
 
     
-    void Update()
+    private void Update()
     {
         if(state == ConstructionState.Active)
         {
             Debug.Log("isBuilding: "+ isBuilding);
         }
-        //worldPosition = GetRayCastHitCoordinates();
         if (state == ConstructionState.Active && isBuilding)
             {
             
@@ -133,7 +131,6 @@ public class BuildingManager : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Mouse1) && state == ConstructionState.Active && isBuilding)
             {
                 Debug.Log("tempGameObject.transform.rotation: " + tempGameObject.transform.rotation);
-                //SetInactiveMode();
                 BuildGameObject();
             }
             
@@ -144,8 +141,6 @@ public class BuildingManager : MonoBehaviour
             }
             else { return; }
         }
-        
-
         if (Input.GetKeyDown(KeyCode.Z) && !isBuilding)
         {
             Debug.Log("Z pressed");
@@ -163,7 +158,6 @@ public class BuildingManager : MonoBehaviour
             Debug.Log("C pressed");
             buildableName = "WallDoorway";
             SetActiveMode();
-
         }
         if (Input.GetKeyDown(KeyCode.V) && !isBuilding)
         {
@@ -192,33 +186,24 @@ public class BuildingManager : MonoBehaviour
             tempObject = builder;
             tempGameObject = builder.SpawnGameObject(worldPosition, buildableName, Quaternion.Euler(-90, 0, currentRotationZ), "transparent");
         }
-             
-        
-        
     }
     private void SetActiveMode()
     {
         if (state == ConstructionState.Inactive)
         {
-            
             SetObject();
             isBuilding = true;
             state = ConstructionState.Active;
         }
-        
     }
     private void SetInactiveMode()
     {
         state = ConstructionState.Inactive;
         isBuilding = false;
-
     }
     private void BuildGameObject()
     {
         tempGameObject.transform.position = worldPosition;
-        //tempObject.SpawnGameObject(worldPosition + offset, buildableName, Quaternion.Euler(-90, 0, 0), "transparent");
-        //currentRotation = 0f;
-        //state = ConstructionState.Inactive;
         SetObject();
     }
     
@@ -236,7 +221,7 @@ public class BuildingManager : MonoBehaviour
         cancelInput.Disable();
         zKeyInput.Disable();
     }
-    public Vector3 GetRayCastHitCoordinates()
+    private Vector3 GetRayCastHitCoordinates()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
@@ -244,7 +229,6 @@ public class BuildingManager : MonoBehaviour
 
         if (Physics.Raycast(ray, out hit, raycastMaxDistance))// if raycast hits inside raycastMaxDistance
         {
-            
             Vector3 hitPoint = tempObject.GridSnap(hit.point); //puts hit.point in Vector3 HitPoint variable
             Debug.Log("Hit at: " + hitPoint);
             Debug.Log("X: " + hitPoint.x + " Y: " + hitPoint.y + " Z: " + hitPoint.z);// hit coordinates
@@ -299,16 +283,13 @@ public class BuildingManager : MonoBehaviour
                         buildCoordinates = new Vector3(hitPoint.x, hitPoint.y, hitPoint.z - offset);
                         return buildCoordinates;
                     }
-                    
                 }
                 else
                 {
                     Vector3 buildCoordinates;
                     buildCoordinates = hitPoint;
                 }
-                
             }
-            
         }
         return Vector3.zero;// Vector3 have to be returned because of the returning type so Vector3.zero is Vector3(0,0,0)
     }

@@ -2,18 +2,9 @@ using System.Drawing;
 using UnityEngine;
 using Color = UnityEngine.Color;
 
-internal class Buildable
+internal class Buildable : AbstractBuildable
 {
-    protected Vector3 buildablePosition;
-    protected Vector3 buildableRotation;
-    protected Vector3 buildableScale;
-    protected string buildableName;
-    protected Color buildableColor;
-    protected Renderer buildableRenderer;
-    protected Rigidbody buildableRigidBody;
-    protected Material[] buildableMaterials;
-    protected GameObject buildable;
-    protected GameObject[] buildableGameObjects;
+    
     protected Buildable(string name, string mode)
     {
         SetupBuildable();
@@ -21,14 +12,14 @@ internal class Buildable
         //ChangeColor(color);
         GetMaterialFromName(mode);
     }
-    protected virtual void SetupBuildable()
+    private void SetupBuildable()
     {
         buildableGameObjects = Resources.LoadAll<GameObject>("BuildPrefabs");
         buildableMaterials = Resources.LoadAll<Material>("MyMaterials");
         if (buildableGameObjects.Length == 0) { Debug.Log("Resources folder missing prefabs"); }
         if (buildableMaterials.Length == 0) { Debug.Log("Resources folder missing materials"); }
     }
-    protected virtual GameObject GetPrefabFromName(string name)
+    protected override GameObject GetPrefabFromName(string name)
     {
         foreach (GameObject gameObject in buildableGameObjects)
         {
@@ -41,7 +32,7 @@ internal class Buildable
         buildable.GetComponent<Renderer>().material.color = color;
         buildableColor = color;
     }
-    public virtual Material GetMaterialFromName(string name)
+    protected override Material GetMaterialFromName(string name)
     {
         foreach (Material material in buildableMaterials)
         {
