@@ -27,7 +27,7 @@ internal class Buildable : AbstractBuildable
         }
         return null;
     }
-    private void ChangeColor(Color color)
+    public void ChangeColor(Color color)
     {
         buildable.GetComponent<Renderer>().material.color = color;
         buildableColor = color;

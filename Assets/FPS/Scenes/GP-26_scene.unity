@@ -980,7 +980,7 @@ MonoBehaviour:
   isBuilding: 0
   canBuild: 0
   offset: 2
-  offsetFoundation: 0
+  offsetFoundation: 2.5
   rotation: {x: 0, y: 0, z: 0, w: 0}
   currentRotationZ: 0
   currentRotationX: 90
