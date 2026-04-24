@@ -14,8 +14,9 @@ public class BuildingManager : MonoBehaviour
     [SerializeField] private Vector3 worldPosition;
     [SerializeField] private bool isBuilding;
     [SerializeField] private bool canBuild;
-    [SerializeField] private Vector3 offset = new Vector3(2,0,0);
+    [SerializeField] private float offset = 2f;
     [SerializeField] private Quaternion rotation;
+    [SerializeField] private float currentRotation = 0f;
     [SerializeField] private Transform hitTransform;
     public object buildObject;
     private Builder tempObject;
@@ -52,6 +53,7 @@ public class BuildingManager : MonoBehaviour
                 Debug.Log("rotation");
                 state = ConstructionState.Rotating;
                 tempGameObject.transform.rotation *= Quaternion.Euler(0, 0, -90);
+                currentRotation = -90f;
                 state = ConstructionState.Active;
             }
             if (Input.GetKeyDown(KeyCode.M) && isBuilding)
@@ -59,17 +61,19 @@ public class BuildingManager : MonoBehaviour
                 Debug.Log("rotation");
                 state = ConstructionState.Rotating;
                 tempGameObject.transform.rotation *= Quaternion.Euler(0, 0, 90);
+                currentRotation = 90f;
                 state = ConstructionState.Active;
             }
             if (Input.GetKeyDown(KeyCode.Mouse1) && state == ConstructionState.Active && isBuilding)
             {
+                Debug.Log("tempGameObject.transform.rotation: " + tempGameObject.transform.rotation);
                 SetInactiveMode();
                 BuildGameObject();
             }
             
             else if (state == ConstructionState.Active && isBuilding)
             {
-                worldPosition = tempObject.GridSnap(GetRayCastHitCoordinates());
+                worldPosition = GetRayCastHitCoordinates();
                 tempGameObject.transform.position = worldPosition;
             }
             else { return; }
@@ -129,6 +133,7 @@ public class BuildingManager : MonoBehaviour
     {
         tempGameObject.transform.position = worldPosition;
         //tempObject.SpawnGameObject(worldPosition + offset, buildableName, Quaternion.Euler(-90, 0, 0), "transparent");
+        currentRotation = 0f;
         state = ConstructionState.Inactive;
 
     }
@@ -161,7 +166,7 @@ public class BuildingManager : MonoBehaviour
 
         if (Physics.Raycast(ray, out hit, raycastMaxDistance))// if raycast hits inside raycastMaxDistance
         {
-            Vector3 hitPoint = hit.point; //puts hit.point in Vector3 HitPoint variable
+            Vector3 hitPoint = tempObject.GridSnap(hit.point); //puts hit.point in Vector3 HitPoint variable
             Debug.Log("Hit at: " + hitPoint);
             Debug.Log("X: " + hitPoint.x + " Y: " + hitPoint.y + " Z: " + hitPoint.z);// hit coordinates
             //hit.collider.tag //maybe use
@@ -180,10 +185,18 @@ public class BuildingManager : MonoBehaviour
                 }
                 if (buildableName == "Wall" || buildableName == "WallDoorway")
                 {
-                    Vector3 buildCoordinates;
-                    buildCoordinates = tempObject.GridSnap(hitPoint);
-                    buildCoordinates += offset;
-                    return buildCoordinates;
+                    if (currentRotation >= 0)
+                    {
+                        Vector3 buildCoordinates;
+                        buildCoordinates = new Vector3(hitPoint.x + offset, hitPoint.y, hitPoint.z);
+                        return buildCoordinates; 
+                    }
+                    else
+                    {
+                        Vector3 buildCoordinates;
+                        buildCoordinates = new Vector3(hitPoint.x, hitPoint.y, hitPoint.z + offset);
+                        return buildCoordinates;
+                    }
                 }
                 
             }
