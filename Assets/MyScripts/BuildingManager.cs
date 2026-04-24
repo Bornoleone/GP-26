@@ -15,6 +15,7 @@ public class BuildingManager : MonoBehaviour
     [SerializeField] private bool isBuilding;
     [SerializeField] private bool canBuild;
     [SerializeField] private float offset = 2f;
+    [SerializeField] private float offsetFoundation;
     [SerializeField] private Quaternion rotation;
     [SerializeField] private float currentRotation = 0f;
     [SerializeField] private Transform hitTransform;
@@ -40,7 +41,7 @@ public class BuildingManager : MonoBehaviour
             {
             
 
-            if(Input.GetKeyDown(KeyCode.Z)&& state == ConstructionState.Active &&isBuilding|| Input.GetKeyDown(KeyCode.X) && state == ConstructionState.Active && isBuilding || Input.GetKeyDown(KeyCode.C) && state == ConstructionState.Active && isBuilding || Input.GetKeyDown(KeyCode.V) && state == ConstructionState.Active && isBuilding)
+            if(Input.GetKeyDown(KeyCode.B) && state == ConstructionState.Active && isBuilding || Input.GetKeyDown(KeyCode.Z)&& state == ConstructionState.Active &&isBuilding|| Input.GetKeyDown(KeyCode.X) && state == ConstructionState.Active && isBuilding || Input.GetKeyDown(KeyCode.C) && state == ConstructionState.Active && isBuilding || Input.GetKeyDown(KeyCode.V) && state == ConstructionState.Active && isBuilding)
             {
                 Debug.Log("Off Building State Input Pressed");
                 SetInactiveMode();
@@ -67,7 +68,7 @@ public class BuildingManager : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Mouse1) && state == ConstructionState.Active && isBuilding)
             {
                 Debug.Log("tempGameObject.transform.rotation: " + tempGameObject.transform.rotation);
-                SetInactiveMode();
+                //SetInactiveMode();
                 BuildGameObject();
             }
             
@@ -105,12 +106,30 @@ public class BuildingManager : MonoBehaviour
             buildableName = "Wall";
             SetActiveMode();
         }
+        if (Input.GetKeyDown(KeyCode.B) && !isBuilding)
+        {
+            Debug.Log("B pressed");
+            buildableName = "Roof";
+            SetActiveMode();
+        }
     }
     private void SetObject()
     {
-        Builder builder = new Builder(buildableName, "transparent");
-        tempObject = builder;
-        tempGameObject = builder.SpawnGameObject(worldPosition,buildableName, Quaternion.Euler(-90, 0, 0), "transparent" );
+        if(buildableName == "Roof")
+        {
+            Builder builder = new Builder(buildableName, "transparent");
+            tempObject = builder;
+            tempGameObject = builder.SpawnGameObject(worldPosition, buildableName, Quaternion.Euler(0, 0, currentRotation), "transparent");
+        }
+        else
+        {
+            Builder builder = new Builder(buildableName, "transparent");
+            tempObject = builder;
+            tempGameObject = builder.SpawnGameObject(worldPosition, buildableName, Quaternion.Euler(-90, 0, currentRotation), "transparent");
+        }
+             
+        
+        
     }
     private void SetActiveMode()
     {
@@ -133,17 +152,11 @@ public class BuildingManager : MonoBehaviour
     {
         tempGameObject.transform.position = worldPosition;
         //tempObject.SpawnGameObject(worldPosition + offset, buildableName, Quaternion.Euler(-90, 0, 0), "transparent");
-        currentRotation = 0f;
-        state = ConstructionState.Inactive;
-
+        //currentRotation = 0f;
+        //state = ConstructionState.Inactive;
+        SetObject();
     }
-    private IEnumerator build(GameObject tempGameObject, Vector3 vector3)
-    {
-
-        yield return new WaitForSeconds(0.5f);
-        
-        isBuilding = false;
-    }
+    
     private void OnEnable()
     {
         leftClick.Enable();
@@ -176,12 +189,23 @@ public class BuildingManager : MonoBehaviour
                 if (buildableName == "Foundation")
                 {
                     Vector3 buildCoordinates;
+                    buildCoordinates = new Vector3(hitPoint.x, hitPoint.y - 2.5f, hitPoint.z);
                     canBuild = true;
+                    return buildCoordinates;
                 }
                 if (buildableName == "Ramp")
                 {
                     Vector3 buildCoordinates;
+                    buildCoordinates = new Vector3(hitPoint.x, hitPoint.y, hitPoint.z);
                     canBuild = true;
+                    return buildCoordinates;
+                }
+                if (buildableName == "Roof")
+                {
+                    Vector3 buildCoordinates;
+                    buildCoordinates = new Vector3(hitPoint.x, hitPoint.y + 2.5f, hitPoint.z);
+                    canBuild = true;
+                    return buildCoordinates;
                 }
                 if (buildableName == "Wall" || buildableName == "WallDoorway")
                 {
