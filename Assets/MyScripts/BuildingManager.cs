@@ -17,7 +17,8 @@ public class BuildingManager : MonoBehaviour
     [SerializeField] private float offset = 2f;
     [SerializeField] private float offsetFoundation;
     [SerializeField] private Quaternion rotation;
-    [SerializeField] private float currentRotation = 0f;
+    [SerializeField] private float currentRotationZ = 0f;
+    [SerializeField] private float currentRotationX = 90f;
     [SerializeField] private Transform hitTransform;
     public object buildObject;
     private Builder tempObject;
@@ -51,19 +52,45 @@ public class BuildingManager : MonoBehaviour
             }
             if (Input.GetKeyDown(KeyCode.N) && isBuilding)
             {
-                Debug.Log("rotation");
-                state = ConstructionState.Rotating;
-                tempGameObject.transform.rotation *= Quaternion.Euler(0, 0, -90);
-                currentRotation = -90f;
-                state = ConstructionState.Active;
+                if (currentRotationZ != -90f)
+                {
+                    Debug.Log("rotation");
+                    state = ConstructionState.Rotating;
+                    tempGameObject.transform.rotation = Quaternion.Euler(-90, 0, -90);
+                    currentRotationZ = -90f;
+                    currentRotationX = -90f;
+                    state = ConstructionState.Active; 
+                }
+                else
+                {
+                    Debug.Log("rotation");
+                    state = ConstructionState.Rotating;
+                    tempGameObject.transform.rotation = Quaternion.Euler(-90, 0, 0);
+                    currentRotationZ = 0f;
+                    currentRotationX = -90f;
+                    state = ConstructionState.Active;
+                }
             }
             if (Input.GetKeyDown(KeyCode.M) && isBuilding)
             {
-                Debug.Log("rotation");
-                state = ConstructionState.Rotating;
-                tempGameObject.transform.rotation *= Quaternion.Euler(0, 0, 90);
-                currentRotation = 90f;
-                state = ConstructionState.Active;
+                if (currentRotationZ != 90f)
+                {
+                    Debug.Log("rotation");
+                    state = ConstructionState.Rotating;
+                    tempGameObject.transform.rotation = Quaternion.Euler(-90, 0, 90);
+                    currentRotationZ = 90f;
+                    currentRotationX = -90f;
+                    state = ConstructionState.Active; 
+                }
+                else
+                {
+                    Debug.Log("rotation");
+                    state = ConstructionState.Rotating;
+                    tempGameObject.transform.rotation = Quaternion.Euler(-90, 0, 0);
+                    currentRotationZ = 0f;
+                    currentRotationX = 90f;
+                    state = ConstructionState.Active;
+                }
             }
             if (Input.GetKeyDown(KeyCode.Mouse1) && state == ConstructionState.Active && isBuilding)
             {
@@ -119,13 +146,13 @@ public class BuildingManager : MonoBehaviour
         {
             Builder builder = new Builder(buildableName, "transparent");
             tempObject = builder;
-            tempGameObject = builder.SpawnGameObject(worldPosition, buildableName, Quaternion.Euler(0, 0, currentRotation), "transparent");
+            tempGameObject = builder.SpawnGameObject(worldPosition, buildableName, Quaternion.Euler(0, 0, currentRotationZ), "transparent");
         }
         else
         {
             Builder builder = new Builder(buildableName, "transparent");
             tempObject = builder;
-            tempGameObject = builder.SpawnGameObject(worldPosition, buildableName, Quaternion.Euler(-90, 0, currentRotation), "transparent");
+            tempGameObject = builder.SpawnGameObject(worldPosition, buildableName, Quaternion.Euler(-90, 0, currentRotationZ), "transparent");
         }
              
         
@@ -179,6 +206,7 @@ public class BuildingManager : MonoBehaviour
 
         if (Physics.Raycast(ray, out hit, raycastMaxDistance))// if raycast hits inside raycastMaxDistance
         {
+            
             Vector3 hitPoint = tempObject.GridSnap(hit.point); //puts hit.point in Vector3 HitPoint variable
             Debug.Log("Hit at: " + hitPoint);
             Debug.Log("X: " + hitPoint.x + " Y: " + hitPoint.y + " Z: " + hitPoint.z);// hit coordinates
@@ -203,28 +231,46 @@ public class BuildingManager : MonoBehaviour
                 if (buildableName == "Roof")
                 {
                     Vector3 buildCoordinates;
-                    buildCoordinates = new Vector3(hitPoint.x, hitPoint.y + 2.5f, hitPoint.z);
+                    buildCoordinates = new Vector3(hitPoint.x, hitPoint.y + offset, hitPoint.z);
                     canBuild = true;
                     return buildCoordinates;
                 }
                 if (buildableName == "Wall" || buildableName == "WallDoorway")
                 {
-                    if (currentRotation >= 0)
+                    if (currentRotationZ == -90)
+                    {
+                        Vector3 buildCoordinates;
+                        buildCoordinates = new Vector3(hitPoint.x - offset, hitPoint.y, hitPoint.z);
+                        return buildCoordinates;
+                    }
+                    if(currentRotationZ == 90)
                     {
                         Vector3 buildCoordinates;
                         buildCoordinates = new Vector3(hitPoint.x + offset, hitPoint.y, hitPoint.z);
-                        return buildCoordinates; 
+                        return buildCoordinates;
                     }
-                    else
+                    if (currentRotationZ == 0 && currentRotationX == -90)
                     {
                         Vector3 buildCoordinates;
                         buildCoordinates = new Vector3(hitPoint.x, hitPoint.y, hitPoint.z + offset);
                         return buildCoordinates;
                     }
+                    if (currentRotationZ == 0 && currentRotationX == 90)
+                    {
+                        Vector3 buildCoordinates;
+                        buildCoordinates = new Vector3(hitPoint.x, hitPoint.y, hitPoint.z - offset);
+                        return buildCoordinates;
+                    }
+                    
+                }
+                else
+                {
+                    Vector3 buildCoordinates;
+                    buildCoordinates = hitPoint;
                 }
                 
             }
-            return hitPoint;// returns the Vector3
+            
         }
         return Vector3.zero;// Vector3 have to be returned because of the returning type so Vector3.zero is Vector3(0,0,0)
     }
