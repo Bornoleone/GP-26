@@ -1,3 +1,4 @@
+using Unity.FPS.Game;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -6,8 +7,9 @@ internal class Ramp : BuildableObject
     
     public Ramp(Vector3 scale) 
     {
+        //buildableGameObject
         GameObject Prefab = Resources.Load<GameObject>("BuildPrefabs/Ramp");
-        buildableGameObject = Prefab;
+        objectMeshFilter = Resources.Load<MeshFilter>("MeshFilters/Ramp");
         Prefab.transform.localScale = scale;
         if (buildableGameObject != null)
         {
@@ -17,9 +19,13 @@ internal class Ramp : BuildableObject
         {
             Debug.Log("Ramp Prefab not found");
         }
+        objectRenderer.gameObject.AddComponent<Renderer>();
+        objectMeshFilter.gameObject.AddComponent<MeshFilter>();
+        //objectRotation
+        //objectRenderer.material.
         buildableObjectName = "Ramp";
         objectScale = scale;
-
+        buildableGameObject.AddComponent<Health>();
 
     }
     public override GameObject SpawnGameObject(Vector3 position)

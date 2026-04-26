@@ -9,6 +9,9 @@ abstract class AbstractBuildable
     protected string buildableName;
     protected Color buildableColor;
     protected Renderer buildableRenderer;
+    internal bool colliderOff;
+    protected MeshCollider buildableCollider;
+    protected BoxCollider childBoxCollider;
     protected Rigidbody buildableRigidBody;
     protected Material buildableMaterial;
     protected Material[] buildableMaterials;

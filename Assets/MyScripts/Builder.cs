@@ -12,7 +12,7 @@ internal class Builder : Buildable
     private List<Vector3> usedCoordinates = new List<Vector3>();
 
     
-    public Builder(string buildableName, string mode) : base(buildableName, mode)
+    public Builder(string buildableName/*, string mode*/) : base(buildableName/*, mode*/)
     {
         
     }
@@ -31,15 +31,14 @@ internal class Builder : Buildable
         }*/
         return new Vector3(snappedX, snappedY, snappedZ);
     }
-    public GameObject SpawnGameObject(Vector3 position, string name, Quaternion quaternion, string mode)
+    public GameObject SpawnGameObject(Vector3 position, string name, Quaternion quaternion)
     {
         GridSnap(position);
         GameObject spawnedObject = Object.Instantiate(GetPrefabFromName(name), GridSnap(position), quaternion);//Quaternion.Euler(-90f, 0, 0)
-        ChangeMaterial(spawnedObject, "transparent");
         return spawnedObject;
     }
     
-    private bool AddToCoordinatesList(Vector3 coordinates)
+    private bool AddToCoordinatesList(Vector3 coordinates)// not in use, for future
     {
         if (!usedCoordinates.Contains(coordinates))
         {

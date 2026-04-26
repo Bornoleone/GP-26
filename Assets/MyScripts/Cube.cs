@@ -1,3 +1,4 @@
+using Unity.FPS.Game;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -9,6 +10,9 @@ internal class Cube : BuildableObject
         buildableGameObject = GameObject.CreatePrimitive(PrimitiveType.Cube);//assigns primitive game object type cube to be buildableGameObject
         objectScale = scale;// Set the scale from constructor parameter
         buildableGameObject.GetComponent<Renderer>().material.color = color;//assigns coming parameter's Color to be game object's color
+        buildableGameObject.AddComponent<Health>();
+        buildableGameObject.AddComponent<Damageable>();
+        buildableGameObject.AddComponent<Destructable>();
     }
 
 

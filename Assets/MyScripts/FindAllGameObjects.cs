@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class FindAllGameObjects : MonoBehaviour
 {
+    
     public GameObject[] allGameObjects;
     void Start()
     {

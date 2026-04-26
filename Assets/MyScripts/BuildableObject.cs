@@ -1,3 +1,4 @@
+using Unity.FPS.Game;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -5,12 +6,14 @@ using UnityEngine.UIElements;
 abstract class BuildableObject
 {
     protected Vector3 objectPosition;
-    protected Vector3 objectRotation;
+    protected Quaternion objectRotation;
     protected Vector3 objectScale;
     protected string buildableObjectName;
     protected Color objectColor;
     protected Renderer objectRenderer;
+    protected MeshFilter objectMeshFilter;
     protected Rigidbody rb;
+    protected Health objectHealth;
     protected Material objectMaterial;
     protected GameObject buildableGameObject;
     //

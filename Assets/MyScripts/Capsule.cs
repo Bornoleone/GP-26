@@ -1,0 +1,31 @@
+using Unity.FPS.Game;
+using UnityEngine;
+
+internal class Capsule : BuildableObject
+{
+    
+
+        public Capsule(Vector3 scale, Color color) : base()//object constructor´, Base() method constructs parent class before this child class
+        {
+            buildableGameObject = GameObject.CreatePrimitive(PrimitiveType.Capsule);//assigns primitive game object type cube to be buildableGameObject
+            objectScale = scale;// Set the scale from constructor parameter
+            buildableGameObject.GetComponent<Renderer>().material.color = color;//assigns coming parameter's Color to be game object's color
+            buildableGameObject.AddComponent<Health>();
+            buildableGameObject.AddComponent<Damageable>();
+            buildableGameObject.AddComponent<Destructable>();
+    }
+
+
+        public override GameObject SpawnGameObject(Vector3 position)
+        {
+
+            rb = buildableGameObject.AddComponent<Rigidbody>();// Add physics component to the cube
+            buildableGameObject.transform.position = position;// Set spawn position
+            objectPosition = position;// saving position to objectPosition variable
+            buildableGameObject.transform.localScale = objectScale;// Apply scale from constructor
+            Debug.Log("Spawned Game object: " + buildableGameObject + " In position: " + position + " scale: " + objectScale);
+            return buildableGameObject;//returns the game object
+        }
+
+    
+}

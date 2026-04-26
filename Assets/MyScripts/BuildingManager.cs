@@ -4,16 +4,15 @@ using UnityEngine.InputSystem;
 public enum ConstructionState { Inactive, Active, Rotating}
 public class BuildingManager : MonoBehaviour
 {
-    public InputAction leftClick;
-    public InputAction rightClick;
-    public InputAction cancelInput;
-    [SerializeField] private InputAction zKeyInput;
-
+    [SerializeField] private KeyCode buildRampInput;
+    [SerializeField] private KeyCode buildFoundationInput;
+    [SerializeField] private KeyCode buildWallInput;
+    [SerializeField] private KeyCode buildWallDoorwayInput;
+    [SerializeField] private KeyCode buildRoofInput;
     [SerializeField] private float raycastMaxDistance;//about 100
     [SerializeField] private string buildableName;
     [SerializeField] private Vector3 worldPosition;
     [SerializeField] private bool isBuilding;
-    [SerializeField] private bool canBuild;
     [SerializeField] private float offset = 2f;
     [SerializeField] private float offsetFoundation = 2.5f;
     [SerializeField] private Quaternion rotation;
@@ -26,7 +25,6 @@ public class BuildingManager : MonoBehaviour
     private void Start()
     {
         state = ConstructionState.Inactive;
-        OnEnable();
     }
 
     
@@ -34,7 +32,7 @@ public class BuildingManager : MonoBehaviour
     {
         if (state == ConstructionState.Active && isBuilding)
             {
-            if(Input.GetKeyDown(KeyCode.B) && state == ConstructionState.Active && isBuilding || Input.GetKeyDown(KeyCode.Z)&& state == ConstructionState.Active &&isBuilding|| Input.GetKeyDown(KeyCode.X) && state == ConstructionState.Active && isBuilding || Input.GetKeyDown(KeyCode.C) && state == ConstructionState.Active && isBuilding || Input.GetKeyDown(KeyCode.V) && state == ConstructionState.Active && isBuilding)
+            if(Input.GetKeyDown(KeyCode.Mouse0) && state == ConstructionState.Active && isBuilding || Input.GetKeyDown(KeyCode.B) && state == ConstructionState.Active && isBuilding || Input.GetKeyDown(KeyCode.Z)&& state == ConstructionState.Active &&isBuilding|| Input.GetKeyDown(KeyCode.X) && state == ConstructionState.Active && isBuilding || Input.GetKeyDown(KeyCode.C) && state == ConstructionState.Active && isBuilding || Input.GetKeyDown(KeyCode.V) && state == ConstructionState.Active && isBuilding)
             {
                 Debug.Log("Off Building State Input Pressed");
                 SetInactiveMode();
@@ -150,15 +148,17 @@ public class BuildingManager : MonoBehaviour
     {
         if(buildableName == "Roof")
         {
-            Builder builder = new Builder(buildableName, "transparent");
+            Builder builder = new Builder(buildableName);
             tempObject = builder;
-            tempGameObject = builder.SpawnGameObject(worldPosition, buildableName, Quaternion.identity, "transparent");
+            tempGameObject = builder.SpawnGameObject(worldPosition, buildableName, Quaternion.identity);
+            //tempObject.SetColliderOff();
         }
         else if(buildableName != "Roof")
         {
-            Builder builder = new Builder(buildableName, "transparent");
+            Builder builder = new Builder(buildableName);
             tempObject = builder;
-            tempGameObject = builder.SpawnGameObject(worldPosition, buildableName, Quaternion.Euler(-90, 0, currentRotationZ), "transparent");
+            tempGameObject = builder.SpawnGameObject(worldPosition, buildableName, Quaternion.Euler(-90, 0, currentRotationZ));
+            //tempObject.SetColliderOff();
         }
     }
     private void SetActiveMode()
@@ -177,24 +177,13 @@ public class BuildingManager : MonoBehaviour
     }
     private void BuildGameObject()
     {
+        //tempObject.SetColliderOn();
+        //tempObject.ChangeMaterial(tempGameObject, "transparent");
         tempGameObject.transform.position = worldPosition;
         SetObject();
     }
     
-    private void OnEnable()
-    {
-        leftClick.Enable();
-        rightClick.Enable();
-        cancelInput.Enable();
-        zKeyInput.Enable();
-    }
-    private void OnDisable()
-    {
-        leftClick.Disable();
-        rightClick.Disable();
-        cancelInput.Disable();
-        zKeyInput.Disable();
-    }
+    
     private Vector3 GetRayCastHitCoordinates()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -214,19 +203,16 @@ public class BuildingManager : MonoBehaviour
                 if (buildableName == "Foundation")
                 {
                     buildCoordinates = new Vector3(hitPoint.x, hitPoint.y - offsetFoundation, hitPoint.z);
-                    canBuild = true;
                     return buildCoordinates;
                 }
                 if (buildableName == "Ramp")
                 {
                     buildCoordinates = new Vector3(hitPoint.x, hitPoint.y, hitPoint.z);
-                    canBuild = true;
                     return buildCoordinates;
                 }
                 if (buildableName == "Roof")
                 {
                     buildCoordinates = new Vector3(hitPoint.x, hitPoint.y + offset, hitPoint.z);
-                    canBuild = true;
                     return buildCoordinates;
                 }
                 if (buildableName == "Wall" || buildableName == "WallDoorway")

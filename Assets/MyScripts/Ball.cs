@@ -1,3 +1,4 @@
+using Unity.FPS.Game;
 using UnityEngine;
 using UnityEngine.ProBuilder.Shapes;
 using UnityEngine.UIElements;
@@ -19,6 +20,9 @@ internal class Ball : BuildableObject
         buildableGameObject = GameObject.CreatePrimitive(PrimitiveType.Sphere);//assigns primitive game object type sphere to be buildableGameObject
         objectScale = scale; // Set the scale from constructor parameter
         buildableGameObject.GetComponent<Renderer>().material.color = color;//assigns coming parameter's Color to be game object's color
+        buildableGameObject.AddComponent<Health>();
+        buildableGameObject.AddComponent<Damageable>();
+        buildableGameObject.AddComponent<Destructable>();
     }
     
     

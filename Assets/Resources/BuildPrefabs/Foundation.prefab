@@ -143,6 +143,18 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 6903952189802265824}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 8a46e32c9de391f4081a38ba20dc1d3c,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7762619273283583915}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 8a46e32c9de391f4081a38ba20dc1d3c,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -3942663292592966712}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 8a46e32c9de391f4081a38ba20dc1d3c,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8287747584880168841}
   m_SourcePrefab: {fileID: 100100000, guid: 8a46e32c9de391f4081a38ba20dc1d3c, type: 3}
 --- !u!4 &7254489789301188530 stripped
 Transform:
@@ -178,3 +190,43 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 48619220562948502, guid: 8a46e32c9de391f4081a38ba20dc1d3c, type: 3}
+--- !u!114 &7762619273283583915
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8063396802756263176}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9b0ce1bb69c96b49a7ac1098a7f5796, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: fps.Game::Unity.FPS.Game.Damageable
+  DamageMultiplier: 1
+  SensibilityToSelfdamage: 0.5
+--- !u!114 &-3942663292592966712
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8063396802756263176}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e27364eefd6dd0341ba72a3bfc0d9727, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: fps.Game::Unity.FPS.Game.Health
+  MaxHealth: 10
+  CriticalHealthRatio: 0.3
+--- !u!114 &8287747584880168841
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8063396802756263176}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f0914267284bd7468f8ac89253e1557, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: fps.Game::Unity.FPS.Game.Destructable

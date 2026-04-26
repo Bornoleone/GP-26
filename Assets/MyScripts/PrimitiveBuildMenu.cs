@@ -65,10 +65,10 @@ public class PrimitiveBuildMenu : MonoBehaviour
             Cube cube = new Cube(selectedGameObjectScale, selectedGameObjectColor); // constructs cube object with scale and color parameters
             cube.SpawnGameObject(currentBuildLocation); // uses cube class SpawnGameObject method to spawn Game Object to currentBuildLocation Vector3 
         }
-        if (selectedGameObjectShape == "Ramp")
+        if (selectedGameObjectShape == "Capsule")
         {
-            Ramp ramp = new Ramp(new Vector3(200,200,200));
-            ramp.SpawnGameObject(currentBuildLocation);
+            Capsule capsule = new Capsule(selectedGameObjectScale, selectedGameObjectColor);
+            capsule.SpawnGameObject(currentBuildLocation);
         }
     }
   
@@ -99,7 +99,7 @@ public class PrimitiveBuildMenu : MonoBehaviour
         {
             case 0: selectedGameObjectShape = "ball"; break;
             case 1: selectedGameObjectShape = "cube"; break;
-            case 2: selectedGameObjectShape = "Ramp"; break;
+            case 2: selectedGameObjectShape = "Capsule"; break;
         }
     }
     public void OnDropDownScaleChanged(int index)//selecting Buildable game object scale
