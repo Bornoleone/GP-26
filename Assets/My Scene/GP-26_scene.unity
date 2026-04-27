@@ -1189,31 +1189,6 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 660060684951237656, guid: 1e0b881b8483fee4da197d8f55274a8d,
-        type: 3}
-      propertyPath: buildRampInput
-      value: 122
-      objectReference: {fileID: 0}
-    - target: {fileID: 660060684951237656, guid: 1e0b881b8483fee4da197d8f55274a8d,
-        type: 3}
-      propertyPath: buildRoofInput
-      value: 98
-      objectReference: {fileID: 0}
-    - target: {fileID: 660060684951237656, guid: 1e0b881b8483fee4da197d8f55274a8d,
-        type: 3}
-      propertyPath: buildWallInput
-      value: 118
-      objectReference: {fileID: 0}
-    - target: {fileID: 660060684951237656, guid: 1e0b881b8483fee4da197d8f55274a8d,
-        type: 3}
-      propertyPath: buildFoundationInput
-      value: 120
-      objectReference: {fileID: 0}
-    - target: {fileID: 660060684951237656, guid: 1e0b881b8483fee4da197d8f55274a8d,
-        type: 3}
-      propertyPath: buildWallDoorwayInput
-      value: 99
-      objectReference: {fileID: 0}
     - target: {fileID: 1021425900786010237, guid: 1e0b881b8483fee4da197d8f55274a8d,
         type: 3}
       propertyPath: m_AnchorMax.y
