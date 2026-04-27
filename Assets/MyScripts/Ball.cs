@@ -35,5 +35,12 @@ internal class Ball : BuildableObject
         Debug.Log("Spawned Game object: " + buildableGameObject + " In position: " + position + " scale: " + objectScale );
         return buildableGameObject; //returns the game object
     }
-    
+    public override Vector3 GridSnap(Vector3 position)
+    {
+        float snappedX = Mathf.Round(position.x / gridSize) * gridSize;
+        float snappedZ = Mathf.Round(position.z / gridSize) * gridSize;
+        float snappedY = Mathf.Round(position.y / gridSize) * gridSize;
+        Debug.Log("grid snap x: " + snappedX + "y: " + snappedY + "z: " + snappedZ);
+        return new Vector3(snappedX, snappedY, snappedZ);
+    }
 }

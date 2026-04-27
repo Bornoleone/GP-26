@@ -63,6 +63,7 @@ public class PrimitiveBuildMenu : MonoBehaviour
         if(selectedGameObjectShape == "cube")//if selected game object is cube then iterates this code block
         {
             Cube cube = new Cube(selectedGameObjectScale, selectedGameObjectColor); // constructs cube object with scale and color parameters
+            cube.SetGridSize(CalculateGridSize(selectedGameObjectScale));
             cube.SpawnGameObject(currentBuildLocation); // uses cube class SpawnGameObject method to spawn Game Object to currentBuildLocation Vector3 
         }
         if (selectedGameObjectShape == "Capsule")
@@ -82,6 +83,22 @@ public class PrimitiveBuildMenu : MonoBehaviour
         {
             CloseBuildMenu(); // closes buildmenu
         }
+    }
+    private float CalculateGridSize(Vector3 scale)
+    {
+        if (scale == new Vector3(1,1,1))
+        {
+            return 1f;
+        }
+        if (scale == new Vector3(2, 2, 2))
+        {
+            return 2f;
+        }
+        if (scale == new Vector3(3, 3, 3))
+        {
+            return 3f;
+        }
+        else { return 1f; }
     }
     
     public void OnDropDownColorChanged(int index)//selecting Buildable game object color

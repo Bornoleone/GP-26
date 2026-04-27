@@ -16,6 +16,7 @@ abstract class BuildableObject
     protected Health objectHealth;
     protected Material objectMaterial;
     protected GameObject buildableGameObject;
+    protected float gridSize = 1f;
     //
 
     protected BuildableObject()
@@ -24,7 +25,8 @@ abstract class BuildableObject
     }
     
     public abstract GameObject SpawnGameObject(Vector3 position);
-
+    public virtual Vector3 GridSnap(Vector3 position) { return Vector3.zero; }
+    public virtual void SetGridSize(float grid){ gridSize = grid; }
 
 
 }

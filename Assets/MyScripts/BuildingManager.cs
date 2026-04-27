@@ -1,14 +1,18 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 public enum ConstructionState { Inactive, Active, Rotating}
 public class BuildingManager : MonoBehaviour
 {
-    [SerializeField] private KeyCode buildRampInput;
-    [SerializeField] private KeyCode buildFoundationInput;
-    [SerializeField] private KeyCode buildWallInput;
-    [SerializeField] private KeyCode buildWallDoorwayInput;
-    [SerializeField] private KeyCode buildRoofInput;
+    [SerializeField] private KeyCode buildRampInput = KeyCode.Z;
+    [SerializeField] private KeyCode buildFoundationInput = KeyCode.X;
+    [SerializeField] private KeyCode buildWallInput = KeyCode.V;
+    [SerializeField] private KeyCode buildWallDoorwayInput = KeyCode.C;
+    [SerializeField] private KeyCode buildRoofInput = KeyCode.B;
+    [SerializeField] private KeyCode buildRotationInput1 = KeyCode.N;
+    [SerializeField] private KeyCode buildRotationInput2 = KeyCode.M;
+    [SerializeField] private KeyCode buildInput = KeyCode.Mouse1;
     [SerializeField] private float raycastMaxDistance;//about 100
     [SerializeField] private string buildableName;
     [SerializeField] private Vector3 worldPosition;
@@ -22,6 +26,8 @@ public class BuildingManager : MonoBehaviour
     private Builder tempObject;
     private GameObject tempGameObject;
     private ConstructionState state;
+    public UnityEvent buildModeEventOn;
+    public UnityEvent buildModeEventOff;
     private void Start()
     {
         state = ConstructionState.Inactive;
@@ -30,16 +36,17 @@ public class BuildingManager : MonoBehaviour
     
     private void Update()
     {
+        
         if (state == ConstructionState.Active && isBuilding)
             {
-            if(Input.GetKeyDown(KeyCode.Mouse0) && state == ConstructionState.Active && isBuilding || Input.GetKeyDown(KeyCode.B) && state == ConstructionState.Active && isBuilding || Input.GetKeyDown(KeyCode.Z)&& state == ConstructionState.Active &&isBuilding|| Input.GetKeyDown(KeyCode.X) && state == ConstructionState.Active && isBuilding || Input.GetKeyDown(KeyCode.C) && state == ConstructionState.Active && isBuilding || Input.GetKeyDown(KeyCode.V) && state == ConstructionState.Active && isBuilding)
+            if(Input.GetKeyDown(KeyCode.Mouse0) && state == ConstructionState.Active && isBuilding || Input.GetKeyDown(buildRoofInput) && state == ConstructionState.Active && isBuilding || Input.GetKeyDown(buildRampInput) && state == ConstructionState.Active &&isBuilding|| Input.GetKeyDown(buildFoundationInput) && state == ConstructionState.Active && isBuilding || Input.GetKeyDown(buildWallDoorwayInput) && state == ConstructionState.Active && isBuilding || Input.GetKeyDown(buildWallInput) && state == ConstructionState.Active && isBuilding)
             {
                 Debug.Log("Off Building State Input Pressed");
                 SetInactiveMode();
                 Destroy(tempGameObject);
                 tempObject = null;
             }
-            if (Input.GetKeyDown(KeyCode.N) && isBuilding)
+            if (Input.GetKeyDown(buildRotationInput1) && isBuilding)
             {
                 state = ConstructionState.Rotating;
                 Debug.Log("rotation");
@@ -65,7 +72,7 @@ public class BuildingManager : MonoBehaviour
                 }
                 state = ConstructionState.Active;
             }
-            if (Input.GetKeyDown(KeyCode.M) && isBuilding)
+            if (Input.GetKeyDown(buildRotationInput2) && isBuilding)
             {
                 state = ConstructionState.Rotating;
                 Debug.Log("rotation");
@@ -92,7 +99,7 @@ public class BuildingManager : MonoBehaviour
                 }
                 state = ConstructionState.Active;
             }
-            if (Input.GetKeyDown(KeyCode.Mouse1) && state == ConstructionState.Active && isBuilding)
+            if (Input.GetKeyDown(buildInput) && state == ConstructionState.Active && isBuilding)
             {
                 Debug.Log("tempGameObject.transform.rotation: " + tempGameObject.transform.rotation);
                 BuildGameObject();
@@ -104,33 +111,33 @@ public class BuildingManager : MonoBehaviour
             }
             else { return; }
         }
-        if (Input.GetKeyDown(KeyCode.Z) && !isBuilding)
+        if (Input.GetKeyDown(buildRampInput) && !isBuilding)
         {
-            Debug.Log("Z pressed");
+            Debug.Log("buildRampInput pressed");
             SetBuildableName("Ramp");
             SetActiveMode();
         }
-        if (Input.GetKeyDown(KeyCode.X) && !isBuilding)
+        if (Input.GetKeyDown(buildFoundationInput) && !isBuilding)
         {
-            Debug.Log("X pressed");
+            Debug.Log("buildFoundationInput pressed");
             SetBuildableName("Foundation");
             SetActiveMode();
         }
-        if (Input.GetKeyDown(KeyCode.C) && !isBuilding)
+        if (Input.GetKeyDown(buildWallDoorwayInput) && !isBuilding)
         {
-            Debug.Log("C pressed");
+            Debug.Log("buildWallDoorwayInput pressed");
             SetBuildableName("WallDoorway");
             SetActiveMode();
         }
-        if (Input.GetKeyDown(KeyCode.V) && !isBuilding)
+        if (Input.GetKeyDown(buildWallInput) && !isBuilding)
         {
-            Debug.Log("V pressed");
+            Debug.Log("buildWallInput pressed");
             SetBuildableName("Wall");
             SetActiveMode();
         }
-        if (Input.GetKeyDown(KeyCode.B) && !isBuilding)
+        if (Input.GetKeyDown(buildRoofInput) && !isBuilding)
         {
-            Debug.Log("B pressed");
+            Debug.Log("buildRoofInput pressed");
             SetBuildableName("Roof");
             SetActiveMode();
         }
@@ -168,12 +175,14 @@ public class BuildingManager : MonoBehaviour
             SetObject();
             isBuilding = true;
             state = ConstructionState.Active;
+            buildModeEventOn.Invoke();
         }
     }
     private void SetInactiveMode()
     {
         state = ConstructionState.Inactive;
         isBuilding = false;
+        buildModeEventOff.Invoke();
     }
     private void BuildGameObject()
     {

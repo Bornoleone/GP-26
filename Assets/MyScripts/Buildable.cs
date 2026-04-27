@@ -21,6 +21,11 @@ internal class Buildable : AbstractBuildable
 
         
     }
+    public override GameObject SpawnGameObject(Vector3 position, string name, Quaternion quaternion)
+    {
+        GameObject spawnedObject = Object.Instantiate(GetPrefabFromName(name), position, quaternion);//Quaternion.Euler(-90f, 0, 0)
+        return spawnedObject;
+    }
     protected override GameObject GetPrefabFromName(string name)
     {
         foreach (GameObject gameObject in buildableGameObjects)

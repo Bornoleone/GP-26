@@ -31,7 +31,7 @@ internal class Builder : Buildable
         }*/
         return new Vector3(snappedX, snappedY, snappedZ);
     }
-    public GameObject SpawnGameObject(Vector3 position, string name, Quaternion quaternion)
+    public override GameObject SpawnGameObject(Vector3 position, string name, Quaternion quaternion)
     {
         GridSnap(position);
         GameObject spawnedObject = Object.Instantiate(GetPrefabFromName(name), GridSnap(position), quaternion);//Quaternion.Euler(-90f, 0, 0)

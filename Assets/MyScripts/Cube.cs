@@ -20,11 +20,23 @@ internal class Cube : BuildableObject
     {
         
         rb = buildableGameObject.AddComponent<Rigidbody>();// Add physics component to the cube
-        buildableGameObject.transform.position = position;// Set spawn position
-        objectPosition = position;// saving position to objectPosition variable
+        buildableGameObject.transform.position = GridSnap(position);// Set spawn position
+        objectPosition = GridSnap(position);// saving position to objectPosition variable
         buildableGameObject.transform.localScale = objectScale;// Apply scale from constructor
         Debug.Log("Spawned Game object: " + buildableGameObject + " In position: " + position + " scale: " + objectScale);
         return buildableGameObject;//returns the game object
+    }
+    public override Vector3 GridSnap(Vector3 position)
+    {
+        float snappedX = Mathf.Round(position.x / gridSize) * gridSize;
+        float snappedZ = Mathf.Round(position.z / gridSize) * gridSize;
+        float snappedY = Mathf.Round(position.y / gridSize) * gridSize;
+        Debug.Log("grid snap x: " + snappedX + "y: " + snappedY + "z: " + snappedZ);
+        return new Vector3(snappedX, snappedY, snappedZ);
+    }
+    public override void SetGridSize(float grid) 
+    { 
+        gridSize = grid;
     }
 
 }
