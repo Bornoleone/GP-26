@@ -85,7 +85,7 @@ internal class Buildable : AbstractBuildable
         }
         return null;
     }
-    protected override void LoadMaterials()
+    protected override void LoadMaterials()// just for testing, not in use
     {
         foreach (Material material in buildableMaterials)
         {
@@ -126,7 +126,7 @@ internal class Buildable : AbstractBuildable
     {
         buildable = gameObject;
     */
-    private void ChangeColor(Color color)//Not in use, for future
+    private void ChangeColor(Color color)//Not in use
     {
         buildable.GetComponent<Renderer>().material.color = color;
         buildableColor = color;
