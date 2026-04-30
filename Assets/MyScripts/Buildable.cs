@@ -8,6 +8,7 @@ internal class Buildable : AbstractBuildable
     
     protected Buildable(string name/*, string mode*/)
     {
+        
         SetupBuildable();
         buildable = GetPrefabFromName(name);
         //ChangeColor(color);
@@ -80,18 +81,28 @@ internal class Buildable : AbstractBuildable
     {
         foreach (GameObject gameObject in buildableGameObjects)
         {
-            if (gameObject.name == name)return gameObject;
+            if (gameObject.name == name) return gameObject;
         }
         return null;
     }
-    protected override Material GetMaterialFromName(string name)// not in use, for future
+    protected override void LoadMaterials()
     {
         foreach (Material material in buildableMaterials)
         {
-            Debug.Log("Material: "+ material.name + " Loaded");
-            if (material.name == name) return material;
+            Debug.Log("Material: " + material.name + " Loaded");
         }
-        return null;
+    }
+    public override void SetMaterialFromName(string PrefabName)// not in use, for future
+    {
+        
+        switch(PrefabName)
+        {       // blue is idex 0, Green is index 1, red is index 2 in buildableMaterials
+            case "Ramp": buildableInstance.GetComponent<Renderer>().material = buildableMaterials[0]; break;
+            case "Foundation": buildableInstance.GetComponent<Renderer>().material = buildableMaterials[2]; break;
+            case "Wall": buildableInstance.GetComponent<Renderer>().material = buildableMaterials[1]; break;
+            case "WallDoorway": buildableInstance.GetComponent<Renderer>().material = buildableMaterials[1]; break;
+            case "Roof": buildableInstance.GetComponent<Renderer>().material = buildableMaterials[0]; break;
+        }
     }
     /*public void SetColliderOff() // not in use, for future
     {
@@ -120,32 +131,5 @@ internal class Buildable : AbstractBuildable
         buildable.GetComponent<Renderer>().material.color = color;
         buildableColor = color;
     }
-    private void ChangeMaterial(GameObject gameObject, string mode)// mode 0 = opaque , mode 3 = transparent // not in use!, for future
-    {
-        
-        switch (mode)
-        {
-            case "transparent":
-                switch (gameObject.name)
-                {
-                    case "Ramp": gameObject.GetComponent<Renderer>().material = GetMaterialFromName("Transparent_Blue_mat"); break;
-                    case "Foundation": gameObject.GetComponent<Renderer>().material = GetMaterialFromName("Transparent_Red_mat"); break;
-                    case "WallDoorway": gameObject.GetComponent<Renderer>().material = GetMaterialFromName("Transparent_Green_mat"); break;
-                    case "Wall": gameObject.GetComponent<Renderer>().material = GetMaterialFromName("Transparent_Green_mat"); break;
-                    
-                }
-                break;
-            case "opaque":
-                switch (gameObject.name)
-                {
-                    case "Ramp": gameObject.GetComponent<Renderer>().material = GetMaterialFromName("Blue_mat"); break;
-                    case "Foundation": gameObject.GetComponent<Renderer>().material = GetMaterialFromName("Red_mat"); break;
-                    case "WallDoorway": gameObject.GetComponent<Renderer>().material = GetMaterialFromName("Green_mat"); break;
-                    case "Wall": gameObject.GetComponent<Renderer>().material = GetMaterialFromName("Green_mat"); break;
-                }
-                break;
-        }
-        Debug.Log("Material mode changed to: "+ mode);
-        
-    }
+    
 }

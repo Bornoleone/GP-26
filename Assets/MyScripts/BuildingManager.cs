@@ -191,6 +191,7 @@ public class BuildingManager : MonoBehaviour
     {
         //tempObject.SetColliderOn();
         //tempObject.ChangeMaterial(tempGameObject, "transparent");
+        tempObject.SetMaterialFromName(buildableName);
         tempObject.SetMeshColliderChildActive();
         tempGameObject.transform.position = worldPosition;
         SetObject();
