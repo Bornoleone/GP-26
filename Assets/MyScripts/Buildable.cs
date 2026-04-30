@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using System.Drawing;
 using UnityEngine;
 using Color = UnityEngine.Color;
@@ -8,23 +9,72 @@ internal class Buildable : AbstractBuildable
     protected Buildable(string name/*, string mode*/)
     {
         SetupBuildable();
-        GetPrefabFromName(name);
+        buildable = GetPrefabFromName(name);
         //ChangeColor(color);
         //GetMaterialFromName(mode);
+
+        /*if (buildableCollider != null)
+        {
+            buildableCollider.enabled = false;
+        }
+        else if (buildableCollider == null)
+        {
+            Debug.Log("buildable collider is null");
+            buildableCollider = buildable.gameObject.AddComponent<MeshCollider>();
+            buildableCollider.enabled = false;
+        }*/
+        SetMeshColliderChildInactive();
     }
+    
     private void SetupBuildable()
     {
+        //buildableMesh = (Mesh)Resources.Load("Mesh/Ramp"); // for mesh collider, not in use
         buildableGameObjects = Resources.LoadAll<GameObject>("BuildPrefabs");
         buildableMaterials = Resources.LoadAll<Material>("MyMaterials");
         if (buildableGameObjects.Length == 0) { Debug.Log("Resources folder missing prefabs"); }
         if (buildableMaterials.Length == 0) { Debug.Log("Resources folder missing materials"); }
-
         
+        
+
+    }
+    public void SetMeshColliderChildActive()
+    {
+        buildableInstance.transform.GetChild(0).gameObject.SetActive(true);
+        buildableInstance.transform.GetChild(1).gameObject.SetActive(true);
+        Debug.Log("SetMeshColliderChildActive() Ran");
+    }
+    public void SetMeshColliderChildInactive()
+    {
+        buildable.transform.GetChild(0).gameObject.SetActive(false);
+        buildable.transform.GetChild(1).gameObject.SetActive(false);
+    }
+    private void SetCheckColliders() // not in use, this as for the mesh colliders
+    {
+        buildableColliders = buildable.gameObject.GetComponents<MeshCollider>();
+        if (buildableColliders.Length != 0)
+        {
+
+            foreach (MeshCollider col in buildableColliders)
+            {
+                UnityEngine.Object.DestroyImmediate(col.gameObject, true);
+            }
+        }
+        Debug.Log("buildable colliders count after destroy: " + buildableColliders.Length);
     }
     public override GameObject SpawnGameObject(Vector3 position, string name, Quaternion quaternion)
     {
-        GameObject spawnedObject = Object.Instantiate(GetPrefabFromName(name), position, quaternion);//Quaternion.Euler(-90f, 0, 0)
-        return spawnedObject;
+        buildableInstance = Object.Instantiate(buildable, position, quaternion);//Quaternion.Euler(-90f, 0, 0)
+        return buildableInstance;
+    }
+    
+    protected override void EnableCollider() // used hours to realize that i need to define mesh collider values to enable the collider, but not gonna use this because i can't destroy stuff in prefabs without errors
+    {
+        buildableCollider = buildable.gameObject.AddComponent<MeshCollider>();
+        buildableCollider.sharedMesh = buildableMesh;
+        buildableCollider.convex = true;
+        buildableCollider.cookingOptions = MeshColliderCookingOptions.CookForFasterSimulation | MeshColliderCookingOptions.EnableMeshCleaning;
+        buildableCollider.enabled = true;
+        Debug.Log("EnableCollider() Ran");
     }
     protected override GameObject GetPrefabFromName(string name)
     {

@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
+using System;
 public enum ConstructionState { Inactive, Active, Rotating}
 public class BuildingManager : MonoBehaviour
 {
@@ -101,7 +102,8 @@ public class BuildingManager : MonoBehaviour
             }
             if (Input.GetKeyDown(buildInput) && state == ConstructionState.Active && isBuilding)
             {
-                Debug.Log("tempGameObject.transform.rotation: " + tempGameObject.transform.rotation);
+                //Debug.Log("tempGameObject.transform.rotation: " + tempGameObject.transform.rotation);
+                
                 BuildGameObject();
             }
             else if (state == ConstructionState.Active && isBuilding)
@@ -153,18 +155,19 @@ public class BuildingManager : MonoBehaviour
     }
     private void SetObject()
     {
+        
+        tempObject = null;
+        tempGameObject = null;
         if(buildableName == "Roof")
         {
-            Builder builder = new Builder(buildableName);
-            tempObject = builder;
-            tempGameObject = builder.SpawnGameObject(worldPosition, buildableName, Quaternion.identity);
+            tempObject = new Builder(buildableName);
+            tempGameObject = tempObject.SpawnGameObject(worldPosition, buildableName, Quaternion.identity);
             //tempObject.SetColliderOff();
         }
         else if(buildableName != "Roof")
         {
-            Builder builder = new Builder(buildableName);
-            tempObject = builder;
-            tempGameObject = builder.SpawnGameObject(worldPosition, buildableName, Quaternion.Euler(-90, 0, currentRotationZ));
+            tempObject = new Builder(buildableName);
+            tempGameObject = tempObject.SpawnGameObject(worldPosition, buildableName, Quaternion.Euler(-90, 0, currentRotationZ));
             //tempObject.SetColliderOff();
         }
     }
@@ -188,6 +191,7 @@ public class BuildingManager : MonoBehaviour
     {
         //tempObject.SetColliderOn();
         //tempObject.ChangeMaterial(tempGameObject, "transparent");
+        tempObject.SetMeshColliderChildActive();
         tempGameObject.transform.position = worldPosition;
         SetObject();
     }
@@ -202,8 +206,8 @@ public class BuildingManager : MonoBehaviour
         if (Physics.Raycast(ray, out hit, raycastMaxDistance))// if raycast hits inside raycastMaxDistance
         {
             Vector3 hitPoint = tempObject.GridSnap(hit.point); //puts hit.point in Vector3 HitPoint variable
-            Debug.Log("Hit at: " + hitPoint);
-            Debug.Log("X: " + hitPoint.x + " Y: " + hitPoint.y + " Z: " + hitPoint.z);// hit coordinates
+            //Debug.Log("Hit at: " + hitPoint);
+            //Debug.Log("X: " + hitPoint.x + " Y: " + hitPoint.y + " Z: " + hitPoint.z);// hit coordinates
             //hit.collider.tag //maybe use
             hitTransform = hit.transform;
             if (isBuilding)
@@ -254,5 +258,9 @@ public class BuildingManager : MonoBehaviour
             }
         }
         return Vector3.zero;// Vector3 have to be returned because of the returning type so Vector3.zero is Vector3(0,0,0)
+    }
+    private IEnumerator Stall()
+    {
+        yield return new WaitForSeconds(1f);
     }
 }

@@ -23,7 +23,7 @@ internal class Builder : Buildable
         float snappedX = Mathf.Round(position.x / gridSize) * gridSize;
         float snappedZ = Mathf.Round(position.z / gridSize) * gridSize;
         float snappedY = Mathf.Round(position.y / gridSize) * gridSize;
-        Debug.Log("grid snap x: "+snappedX + "y: " +snappedY + "z: "+ snappedZ);
+        //Debug.Log("grid snap x: "+snappedX + "y: " +snappedY + "z: "+ snappedZ);
 
         /*if (!AddToCoordinatesList(new Vector3(snappedX, snappedY, snappedZ)))
         {
@@ -34,10 +34,11 @@ internal class Builder : Buildable
     public override GameObject SpawnGameObject(Vector3 position, string name, Quaternion quaternion)
     {
         GridSnap(position);
-        GameObject spawnedObject = Object.Instantiate(GetPrefabFromName(name), GridSnap(position), quaternion);//Quaternion.Euler(-90f, 0, 0)
-        return spawnedObject;
+        buildableInstance = Object.Instantiate(buildable, GridSnap(position), quaternion);//Quaternion.Euler(-90f, 0, 0)
+        return buildableInstance;
     }
     
+
     private bool AddToCoordinatesList(Vector3 coordinates)// not in use, for future
     {
         if (!usedCoordinates.Contains(coordinates))
